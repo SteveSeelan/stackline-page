@@ -4,6 +4,7 @@ import ProductCard from './Components/Product/ProductCard';
 import SalesGraphCard from './Components/Sales/SalesGraphCard';
 import SalesTable from './Components/Sales/SalesTable';
 import { Product, Sales } from './types';
+import styles from './app.module.css';
 
 const App = () => {
   const { data, loading, error } = useLoadProduct('https://endpoint.com/api/v1/product?id=1234');
@@ -20,8 +21,10 @@ const App = () => {
       <Header />
       <div style={{ display: 'flex', justifyContent: 'space-around', margin: '15px', padding: '20px' }}>
         <ProductCard {...product as Product} />
-        <SalesGraphCard data={product.sales as Array<Sales>} />
-        {/* <SalesTable {...product.sales as Sales[]} /> */}
+        <div className={styles.dataContainer}>
+          <SalesGraphCard data={product.sales as Sales[]} />
+          <SalesTable data={product.sales as Sales[]} />
+        </div>
       </div>
     </div>
   );

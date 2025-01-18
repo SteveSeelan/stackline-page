@@ -1,138 +1,69 @@
+import { useState } from "react";
 import { Sales } from "../../types";
+import styles from './sales-table.module.css';
 
-const SalesTable = (sales: Array<Sales>) => {
+type SortDirection = 'asc' | 'desc' | null
+type SortColumn = keyof Sales | null
+
+const SalesTable = ({ data }: { data: Sales[] }) => {
+    const [sortColumn, setSortColumn] = useState<SortColumn>()
+    const [sortDirection, setSortDirection] = useState<SortDirection>(null)
+
+    const handleSort = (column: keyof Sales) => {
+        if (sortColumn === column) {
+        setSortDirection(prev => {
+            if (prev === 'asc') return 'desc'
+            if (prev === 'desc') return null
+            return 'asc'
+        })
+        } else {
+        setSortColumn(column)
+        setSortDirection('asc')
+        }
+    }
+
+    const getSortedData = () => {
+        if (!sortColumn || !sortDirection) return data
+
+        return [...data].sort((a, b) => {
+        let aValue = a[sortColumn]
+        let bValue = b[sortColumn]
+
+        if (sortDirection === 'asc') {
+            return aValue > bValue ? 1 : -1
+        } else {
+            return aValue < bValue ? 1 : -1
+        }
+        })
+    }
+    const headers = [['Week Ending', 'weekEnding'], ['Retail Sales', 'retailSales'], ['Wholesale Sales', 'wholesaleSales'], ['Units Sold', 'unitsSold'], ['Retailer Margin', 'retailerMargin']];
+
+    const sortedData = getSortedData()
+
     return (
-        <div style={{ width: '100%' }}>
-            <div style={{ 
-                border: '1px solid #e2e8f0',
-                borderRadius: '6px',
-            }}>
-                <table style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                fontSize: '14px',
-                }}>
-                <caption style={{
-                    marginTop: '16px',
-                    fontSize: '14px',
-                    color: '#64748b',
-                    captionSide: 'bottom'
-                }}>
-                    A list of your recent invoices.
-                </caption>
-                <thead>
-                    <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
-                    <th style={{
-                        height: '48px',
-                        padding: '16px',
-                        textAlign: 'left',
-                        verticalAlign: 'middle',
-                        fontWeight: '500',
-                        color: '#64748b',
-                        width: '100px'
-                    }}>
-                        Invoice
-                    </th>
-                    <th style={{
-                        height: '48px',
-                        padding: '16px',
-                        textAlign: 'left',
-                        verticalAlign: 'middle',
-                        fontWeight: '500',
-                        color: '#64748b'
-                    }}>
-                        Status
-                    </th>
-                    <th style={{
-                        height: '48px',
-                        padding: '16px',
-                        textAlign: 'left',
-                        verticalAlign: 'middle',
-                        fontWeight: '500',
-                        color: '#64748b'
-                    }}>
-                        Method
-                    </th>
-                    <th style={{
-                        height: '48px',
-                        padding: '16px',
-                        textAlign: 'right',
-                        verticalAlign: 'middle',
-                        fontWeight: '500',
-                        color: '#64748b'
-                    }}>
-                        Amount
-                    </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sales.map((sale) => (
-                    <tr
-                        key={sale.weekEnding}
-                        style={{
-                        borderBottom: '1px solid #e2e8f0',
-                        transition: 'background-color 200ms',
-                        }}
-                        onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#f8fafc'
-                        }}
-                        onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        }}
-                    >
-                        <td style={{
-                        padding: '16px',
-                        verticalAlign: 'middle',
-                        fontWeight: '500'
-                        }}>
-                        {sale.retailSales}
-                        </td>
-                        <td style={{
-                        padding: '16px',
-                        verticalAlign: 'middle'
-                        }}>
-                        {sale.wholesaleSales}
-                        </td>
-                        <td style={{
-                        padding: '16px',
-                        verticalAlign: 'middle'
-                        }}>
-                        {sale.unitsSold}
-                        </td>
-                        <td style={{
-                        padding: '16px',
-                        verticalAlign: 'middle',
-                        textAlign: 'right'
-                        }}>
-                        {sale.retailerMargin}
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
-                <tfoot style={{
-                    backgroundColor: '#1e293b',
-                    color: 'white',
-                    fontWeight: '500'
-                }}>
-                    <tr>
-                    <td
-                        colSpan={3}
-                        style={{
-                        padding: '16px',
-                        verticalAlign: 'middle'
-                        }}
-                    >
-                        Total
-                    </td>
-                    <td style={{
-                        padding: '16px',
-                        verticalAlign: 'middle',
-                        textAlign: 'right'
-                    }}>
-                        $2,500.00
-                    </td>
-                    </tr>
-                </tfoot>
+        <div className={styles.wrapper}>
+            <div className={styles.container}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr className={styles.headerRow}>
+                            {headers.map((header, index) => (
+                                <th className={styles.headerCell} key={index} onClick={() => handleSort(header[1] as keyof Sales)}>
+                                    <span>{header[1]}</span>
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sortedData.map((sale) => (
+                        <tr key={sale.weekEnding} className={styles.row}>
+                            <td className={styles.cell}>{sale.weekEnding}</td>
+                            <td className={styles.cell}>{sale.retailSales}</td>
+                            <td className={styles.cell}>{sale.wholesaleSales}</td>
+                            <td className={styles.cell}>{sale.unitsSold}</td>
+                            <td className={styles.cell}>{sale.retailerMargin}</td>
+                        </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
         </div>

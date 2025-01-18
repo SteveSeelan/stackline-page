@@ -1,5 +1,5 @@
 import { Sales } from "../../types";
-import { Line, LineChart, XAxis, ResponsiveContainer } from "recharts";
+import { Line, LineChart, XAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import styles from './sales-graph.module.css';
 
 // Format the month abbreviation
@@ -9,6 +9,7 @@ const formatMonth = (weekEnding: string) => {
 
     return formatted; 
 }
+
 
 const SalesGraphCard = ({ data }: { data: Sales[] }) => {
     return (
@@ -29,6 +30,8 @@ const SalesGraphCard = ({ data }: { data: Sales[] }) => {
                 tickLine={false}
                 axisLine={false}
               />
+              <Tooltip />
+              <Legend />
               <Line
                 type="monotone"
                 dataKey="retailSales"

@@ -1,0 +1,15 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--retail-line-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+  
+.logo {
+    width: 200px;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}

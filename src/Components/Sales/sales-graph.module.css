@@ -1,0 +1,35 @@
+.container {
+    width: 100%;
+    height: fit-content;
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  }
+  
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+  
+.chartContainer {
+    height: 400px;
+    width: 100%;
+}
+  
+.axisLabel {
+    font-size: 12px;
+    color: #94a3b8;
+}
+  
+.retailLine {
+    stroke: hsl(217, 91%, 60%);
+    stroke-width: 2;
+}   
+  
+.wholesaleLine {
+    stroke: hsl(217, 31%, 80%);
+    stroke-width: 2;
+}

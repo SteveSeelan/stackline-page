@@ -1,0 +1,15 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    --retail-line-color: hsl(217, 91%, 60%);
+    --wholesale-line-color: hsl(218, 9%, 54%);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+* {
+    box-sizing: inherit;
+}
